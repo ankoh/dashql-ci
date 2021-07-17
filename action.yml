@@ -15,7 +15,7 @@ inputs:
 
 runs:
     using: 'docker'
-    image: 'ankoh/dashql-ci-action:master'
+    image: 'ghcr.io/ankoh/dashql-ci-action:master'
     env:
         EM_CACHE: ${{ inputs.emscripten_cache_dir }}
         YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_dir }}

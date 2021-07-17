@@ -36,11 +36,23 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      # Temporary fix to test the new github cache.
+      # Delete buildx setup when this is GA.
+      # https://github.com/docker/buildx/pull/535
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          version: v0.6.0-rc1
+          driver-opts: image=moby/buildkit:v0.9.0-rc2
+          buildkitd-flags: --debug
+
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
-          pull: true
-          push: true
+          file: ./Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha
