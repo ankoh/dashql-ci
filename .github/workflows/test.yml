@@ -1,6 +1,6 @@
 name: Test the GitHub action
 
-on: [push, tags]
+on: push
 
 jobs:
   docker-build:
