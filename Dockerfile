@@ -111,4 +111,4 @@ RUN source /opt/emsdk/emsdk_env.sh \
 USER ${UNAME}
 
 ENTRYPOINT ["tini", "-v", "--", "/opt/entrypoint.sh"]
-WORKDIR /wd
+WORKDIR /github/workspace
