@@ -34,12 +34,6 @@ RUN mkdir -p /opt/emsdk \
 
 SHELL ["/bin/bash", "-c"]
 
-ARG UNAME=actions
-ARG UID=1000
-ARG GID=1000
-RUN groupadd -g ${GID} -o ${UNAME} \
-    && useradd -m -g ${GID} -u ${UID} -s /bin/bash ${UNAME}
-
 ENV NVM_DIR=/opt/nvm
 ARG NVM_VERSION="v0.38.0"
 ARG NODE_VERSION="v16.1.0"
@@ -50,8 +44,7 @@ RUN mkdir -p /opt/nvm \
     && nvm install ${NODE_VERSION} \
     && nvm alias default ${NODE_VERSION} \
     && nvm use default \
-    && npm install --global yarn \
-    && chown -R ${UID}:${GID} /opt/nvm
+    && npm install --global yarn
 
 ARG FLATBUFFER_COMMIT="04b10f5a3a78aed27030a4e26dcf36921979114f"
 RUN mkdir -p /tmp/flatbuffers/build /tmp/flatbuffers/install \
@@ -80,19 +73,16 @@ RUN export RUSTUP_HOME=/opt/rust \
     && curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain ${RUST_VERSION} -y \
     && export PATH=$PATH:/opt/rust/bin \
     && rustup target add wasm32-unknown-unknown \
-    && chown -R ${UID}:${GID} /opt/rust
 
 ENV AZURE_CONFIG_DIR=/opt/azure
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /opt/azure \
-    && chown -R ${UID}:${GID} /opt/azure
 
 ARG BOOST_VERSION="1.74.0"
 ARG BOOST_TARBALL="boost_1_74_0.tar.gz"
-RUN curl -Lo /opt/boost.tar.gz "https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VERSION}/source/${BOOST_TARBALL}" \
-    && chown -R ${UID}:${GID} /opt/boost.tar.gz
+RUN curl -Lo /opt/boost.tar.gz "https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VERSION}/source/${BOOST_TARBALL}"
 
 RUN source /opt/emsdk/emsdk_env.sh \
     && echo "export PATH=$PATH:/opt/rust/bin" >> /opt/env.sh \
@@ -105,10 +95,7 @@ RUN source /opt/emsdk/emsdk_env.sh \
     && echo "export BOOST_ARCHIVE=/opt/boost.tar.gz" >> /opt/env.sh \
     && echo "source /opt/nvm/nvm.sh" >> /opt/env.sh \
     && printf '#!/bin/bash\nsource /opt/env.sh\nexec env "$@"\n' > /opt/entrypoint.sh \
-    && chmod +x /opt/entrypoint.sh \
-    && chown -R ${UID}:${GID} /opt/entrypoint.sh
-
-USER ${UNAME}
+    && chmod +x /opt/entrypoint.sh
 
 ENTRYPOINT ["tini", "-v", "--", "/opt/entrypoint.sh"]
 WORKDIR /github/workspace
