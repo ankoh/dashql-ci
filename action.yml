@@ -17,9 +17,9 @@ runs:
     using: 'docker'
     image: 'ghcr.io/ankoh/dashql-ci-action:master'
     env:
-        EM_CACHE: ${{ inputs.emscripten_cache_dir }}
-        YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_dir }}
-        CCACHE_DIR: ${{ inputs.ccache_dir }}
-        CCACHE_BASEDIR: /github/workspace/
+        - EM_CACHE: ${{ inputs.emscripten_cache_dir }}
+        - YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_dir }}
+        - CCACHE_DIR: ${{ inputs.ccache_dir }}
+        - CCACHE_BASEDIR: /github/workspace/
     args:
-        - bash -c "${{ inputs.script }}"
+        - ${{ inputs.script }}
