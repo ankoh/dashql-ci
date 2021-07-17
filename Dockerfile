@@ -72,13 +72,13 @@ RUN export RUSTUP_HOME=/opt/rust \
     && export CARGO_HOME=/opt/rust \
     && curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain ${RUST_VERSION} -y \
     && export PATH=$PATH:/opt/rust/bin \
-    && rustup target add wasm32-unknown-unknown \
+    && rustup target add wasm32-unknown-unknown
 
 ENV AZURE_CONFIG_DIR=/opt/azure
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && mkdir -p /opt/azure \
+    && mkdir -p /opt/azure
 
 ARG BOOST_VERSION="1.74.0"
 ARG BOOST_TARBALL="boost_1_74_0.tar.gz"
