@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Compile hello_world with emcc
-        uses: ankoh/dashql-ci@${{ github.sha }}
+        uses: ./
         with:
           script: |-
             emcc ./test/hello_world/hello_world.cc
