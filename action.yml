@@ -22,4 +22,6 @@ runs:
         CCACHE_DIR: ${{ inputs.ccache_dir }}
         CCACHE_BASEDIR: /github/workspace/
     args:
+        - bash
+        - -c
         - ${{ inputs.script }}
