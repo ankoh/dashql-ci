@@ -22,7 +22,7 @@ runs:
     steps:
         - run: |-
             echo "IMAGE_TAG=$(cat ${GITHUB_ACTION_PATH}/TAG)" >> $GITHUB_ENV
-            echo "${{ env.IMAGE_TAG }}""
+            echo "${{ env.IMAGE_TAG }}"
           shell: bash
 
         - run: |-
