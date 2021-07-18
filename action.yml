@@ -21,7 +21,7 @@ runs:
     using: 'composite'
     steps:
         - run: |-
-            echo "IMAGE_TAG=$(cat ./TAG)" >> $GITHUB_ENV
+            echo "IMAGE_TAG=$(cat ${{ github.action_path }}/TAG)" >> $GITHUB_ENV
           shell: bash
 
         - run: |-
