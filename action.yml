@@ -13,20 +13,11 @@ inputs:
         description: 'Ccache directory'
         default: /github/workspace/.ccache
 
-env:
-    REGISTRY: ghcr.io
-    IMAGE_NAME: ankoh/dashql-ci-env
-
 runs:
     using: 'composite'
     steps:
         - run: |-
-            echo "IMAGE_TAG=$(cat ${GITHUB_ACTION_PATH}/TAG)" >> $GITHUB_ENV
-            echo "${{ env.IMAGE_TAG }}"
-          shell: bash
-
-        - run: |-
-            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            docker pull "ghcr.io/ankoh/dashql-ci-env:$(cat ${{ github.action_path }}/TAG)"
           shell: bash
 
         - run: |-
@@ -39,6 +30,6 @@ runs:
                   -e YARN_CACHE_FOLDER=/mnt/yarn_cache \
                   -e CCACHE_DIR=/mnt/ccache \
                   -e CCACHE_BASEDIR=/github/workspace \
-                  ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+                  "ghcr.io/ankoh/dashql-ci-env:$(cat ${{ github.action_path }}/TAG)" \
                   bash -c "${{ inputs.script }}"
           shell: bash
