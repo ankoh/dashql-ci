@@ -2,7 +2,7 @@ FROM ubuntu:21.04
 
 RUN apt-get update -qq \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        tini build-essential git \
+        pkg-config tini build-essential git \
         ccache cmake ninja-build llvm clang clang-format clang-tidy curl python python3 \
         bison flex \
         brotli rsync \
