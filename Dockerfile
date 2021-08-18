@@ -73,7 +73,9 @@ RUN export RUSTUP_HOME=/opt/rust \
     && export CARGO_HOME=/opt/rust \
     && curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain ${RUST_VERSION} -y \
     && export PATH=$PATH:/opt/rust/bin \
-    && rustup target add wasm32-unknown-unknown
+    && rustup target add wasm32-unknown-unknown \
+    && cargo install wasm-pack wrangler
+    
 
 ENV AZURE_CONFIG_DIR=/opt/azure
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash \
