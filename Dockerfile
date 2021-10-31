@@ -68,7 +68,7 @@ RUN mkdir -p /tmp/flatbuffers/build /tmp/flatbuffers/install \
     && make -C /tmp/flatbuffers/build -j`nproc` install \
     && rm -rf /tmp/flatbuffers
 
-ARG RUST_VERSION="nightly"
+ARG RUST_VERSION="1.56.0"
 RUN export RUSTUP_HOME=/opt/rust \
     && export CARGO_HOME=/opt/rust \
     && curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain ${RUST_VERSION} -y \
